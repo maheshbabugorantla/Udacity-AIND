@@ -1,4 +1,4 @@
-# ***Applying AI to Sudoku***
+# ***Applying AI to Solve Sudoku***
 
 ## ***What is Sudoku***
 Sudoku is one of the world's most popular puzzles. It consists of a 9x9 grid, and the objective is to fill the digits in such a way that each row, each column, and each of the 9 principal 3x3 subsquares contains all of the digits from 1 to 9. The detailed rules can be found
