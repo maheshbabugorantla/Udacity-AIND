@@ -16,4 +16,4 @@ In the process of problem solving, we may get to the point where two or more pos
 These ideas may seem simple and they're actually intended to be! Through this lesson you'll see how AI is really composed of very simple ideas that can be put together to solve complex problems. Throughout this lesson, we challenge you to think of how you can apply these ideas to build AI agents to solve other puzzles and problems in your world!
 
 ### ***Sudoku AI from Peter Norvig***
-I have used the following [Link](http://norvig.com/sudoku.html) from Peter Norvig to implement the above specified methods to create AI for solving Sudoku
+I have used the following <a href="http://norvig.com/sudoku.html" target="_blank">Link</a> from Peter Norvig to implement the above specified methods to create AI for solving Sudoku
