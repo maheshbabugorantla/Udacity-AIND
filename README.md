@@ -4,5 +4,5 @@
 
 ## ***Projects***
 
-- [ ] [Solve Sudoku with AI](./sudoku.md)&nbsp;&nbsp;&nbsp;&nbsp;[![Endpoin coverage](http://progressed.io/bar/0?title=InProgress)](#progress)
+- [ ] [Solve Sudoku with AI](./sudoku.md)&nbsp;&nbsp;&nbsp;&nbsp;[![Endpoint coverage](http://progressed.io/bar/0?title=InProgress)](#progress)
 - [ ] [Game Playing AI Agent](./game_playing_AI_Agent.md)
