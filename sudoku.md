@@ -1,6 +1,6 @@
 # ***Sudoku AI Solution***
 
 ## ***How I solved it***
-- [ ] [Project Files]()
+- [ ] [Solution](./Projects/1_Solve_Sudoku)
 
 ## ***Results***
