@@ -55,13 +55,14 @@ def display(values):
 def grid_values(grid_str):
     return {box:( '123456789' if val == '.' else val) for box, val in zip(boxes, grid_str)}
 
-def eliminate(values):
-    solved_values = [box for box in values.keys() if len(values[box]) == 1]
-    for box in solved_values:
-        digit = values[box]
-        for peer in peers[box]:
-            values[peer] = values[peer].replace(digit,'')
-    return values
+def eliminate(grid):
+
+    solved = [value for value in grid().values if len(value) == 1]
+    print(solved)
+    # for val in solved:
+    #
+    #     for peer in peers:
+
 
 # def eliminate(grid):
 #
