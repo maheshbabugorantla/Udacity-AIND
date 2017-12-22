@@ -46,7 +46,7 @@ def values2grid(values):
     Returns
     -------
     a string representing a sudoku grid.
-        
+
         Ex. '2.............62....1....7...6..8...3...9...7...6..4...4....8....52.............3'
     """
     res = []
@@ -64,9 +64,9 @@ def grid2values(grid):
     ----------
     grid(string)
         a string representing a sudoku grid.
-        
+
         Ex. '2.............62....1....7...6..8...3...9...7...6..4...4....8....52.............3'
-    
+
     Returns
     -------
         A grid in dictionary form
@@ -100,7 +100,7 @@ def display(values):
 
 
 def reconstruct(values, history):
-    """Returns the solution as a sequence of value assignments 
+    """Returns the solution as a sequence of value assignments
 
     Parameters
     ----------
