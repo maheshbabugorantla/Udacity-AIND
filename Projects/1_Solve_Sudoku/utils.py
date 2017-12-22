@@ -1,4 +1,4 @@
-import re
+from collections import Counter
 
 rows = 'ABCDEFGHI'
 cols = '123456789'
@@ -56,28 +56,86 @@ def grid_values(grid_str):
     return {box:( '123456789' if val == '.' else val) for box, val in zip(boxes, grid_str)}
 
 def eliminate(grid):
+    solved = [key for key in grid.keys() if len(grid[key]) == 1]
 
-    solved = [value for value in grid().values if len(value) == 1]
-    print(solved)
-    # for val in solved:
-    #
-    #     for peer in peers:
+    for val in solved:
+        digit = grid[val]
+        for peer in peers[val]:
+            grid[peer] = grid[peer].replace(digit, "")
 
+    return grid
 
-# def eliminate(grid):
+def only_choice(grid):
+    for unit in unitlist:
+        for digit in '123456789':
+            box_n = [box for box in unit if digit in grid[box]]
+            if len(box_n) == 1:
+                grid[box_n[0]] = digit
+
+    return grid
+
+# def only_choice_1(grid):
 #
-#      # First eliminating the digits that are already present in the corresponding square
+#     solved = [key for key in grid.keys() if len(grid[key]) == 1]
+#     solved_cells = set(solved)
+#
 #     for square in square_units:
-#         eliminateStr = []
-#         for peer in square:
-#             if grid[peer] != "123456789":
-#                 eliminateStr.append(grid[peer])
+#         search_units = set(square) - solved_cells
+#         counter = Counter()
+#         for unit in search_units:
+#             counter.update(list(grid[unit]))
 #
-#         for peer in square:
-#             if grid[peer] == "123456789":
-#                 grid[peer] = re.sub("|".join(eliminateStr), "", "123456789")
+#         only_choice = [key for key in counter.keys() if counter[key] == 1]
 #
-#     # Then remove the elements that are peers that are in rows and columns peers
-#     print("\n\n")
+#         for choice in only_choice:
+#             for unit in search_units:
+#                 if choice in grid[unit]:
+#                     grid[unit] = choice
 #
-#     return grid
+#     display(grid)
+#     #
+#     # return grid
+
+def reduce_puzzle(grid):
+
+    done = False
+
+    while not done:
+        # Counting the no. of determined cases
+        puzzle_before = len([box for box in grid.keys() if len(grid[box]) == 1])
+        grid = eliminate(grid)
+        grid = only_choice(grid)
+        puzzle_after = len([box for box in grid.keys() if len(grid[box]) == 1])
+        done = puzzle_before == puzzle_after
+
+        # Sanity Check, return False if there is a box with zero available values
+        if len([box for box in grid.keys() if len(grid[box]) == 0]):
+            return False
+
+    return grid
+
+def search(grid):
+
+    # First Reduce the grid values
+    grid = reduce_puzzle(grid)
+
+    # BASE Case for Recursion
+    # Check if we already have a solution or failed initially
+    if grid is False:
+        return False # Failed Earlier
+
+    # Checking to see if already have a solution
+    if all([len(grid[box]) == 1 for box in boxes]):
+        return grid
+
+    # Check for the box that least no.of possibilities
+    box, n = min([(box, len(grid[box])) for box in boxes if len(grid[box]) > 1])
+
+    # Choosing one possibility at a time
+    for val in grid[box]:
+        new_grid = grid.copy()
+        new_grid[box] = val
+        trial = search(new_grid)
+
+        if trial: # This is only true if there is a solution else the 'trial' == false and we will chose the next possibility
+            return trial
