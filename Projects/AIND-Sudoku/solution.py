@@ -7,8 +7,10 @@ column_units = [cross(rows, c) for c in cols]
 square_units = [cross(rs, cs) for rs in ('ABC','DEF','GHI') for cs in ('123','456','789')]
 
 # Diagonals
-diagonal_unit_1 = [[rs+cs for rs, cs in zip('ABCDEFGHI', '123456789')]] # Top-Left to Bottom-Right
-diagonal_unit_2 = [[rs+cs for rs, cs in zip('ABCDEFGHI', '987654321')]] # Bottom-Left to Top-Right
+diagonal_unit_1 = [[rs+cs for rs, cs in zip(rows, cols)]] # Top-Left to Bottom-Right
+diagonal_unit_2 = [[rs+cs for rs, cs in zip(rows, cols[::-1])]] # Bottom-Left to Top-Right
+
+# diagonal_units = [diagonal_unit_1, diagonal_unit_2]
 
 unitlist = row_units + column_units + square_units + diagonal_unit_1 + diagonal_unit_2
 
@@ -211,7 +213,6 @@ def solve(grid):
     values = grid2values(grid)
     values = search(values)
     return values
-
 
 if __name__ == "__main__":
     diag_sudoku_grid = '2.............62....1....7...6..8...3...9...7...6..4...4....8....52.............3'
