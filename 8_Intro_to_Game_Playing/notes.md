@@ -46,12 +46,12 @@ and [University of Washington AI CS573 Class Notes](https://courses.cs.washingto
   - `Minimax procedure` : Search down several level; at the bottom level apply the utility function, back-up values all the way up to the root node, and that node selects the move
 
   ```
-  Given a game tree, the optimal strategy can be determined from the minimax value
-of each node, which we write as MINIMAX(n). The minimax value of a node is the utility
-(for MAX) of being in the corresponding state, assuming that both players play optimally
-from there to the end of the game. Obviously, the minimax value of a terminal state is just
-its utility. Furthermore, given a choice, MAX prefers to move to a state of maximum value,
-whereas MIN prefers a state of minimum value. For more Info (Check AIMA 3rd Edition Page 164)
+    Given a game tree, the optimal strategy can be determined from the minimax value
+    of each node, which we write as MINIMAX(n). The minimax value of a node is the utility
+    (for MAX) of being in the corresponding state, assuming that both players play optimally
+    from there to the end of the game. Obviously, the minimax value of a terminal state is just
+    its utility. Furthermore, given a choice, MAX prefers to move to a state of maximum value,
+    whereas MIN prefers a state of minimum value. For more Info (Check AIMA 3rd Edition Page 164)
   ```
 
   ### Minimax Strategy
