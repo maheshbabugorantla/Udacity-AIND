@@ -54,13 +54,29 @@ and [University of Washington AI CS573 Class Notes](https://courses.cs.washingto
     whereas MIN prefers a state of minimum value. For more Info (Check AIMA 3rd Edition Page 164)
   ```
 
-  ### Minimax Strategy
+  #### Minimax Strategy
   - Why do we take the min value every other level of the tree?
   - These nodes represent the opponent's choice of move
   - The computer assumes that the human will choose that move that is of least value to the computer
 
   For pseudo-code of Minimax Algorithm check Page 22 of [`this`](https://github.com/maheshbabugorantla/Udacity-AIND/blob/unstable/Notes/UW_AI_CS573/lectures/05-games.pdf) document
 
+  #### Properties of Minimax
+  - `Complete` ?
+    - Yes (if tree is finite)
+  - `Optimal` ?
+    - Yes (against an optimal opponent)
+    - No (does not exploit opponent weakness against suboptimal opponent)
+  - `Time complexity` ?
+    - O(b<sup>m</sup>)
+  - `Space complexity` ?
+    - O(bm) (Depth-First Exploration)
+
+  #### Is Minimax Good Enough?
+  - Chess:
+    - branching factor b = 35
+    - game length m = 100
+    - search space b<sup>m</sup> = 35<sup>100</sup> = 10<sup>154</sup>
 
 - [ ] Alpha-Beta Pruning
 - [ ] Evaluation Functions
