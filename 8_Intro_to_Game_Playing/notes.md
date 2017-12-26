@@ -54,7 +54,7 @@ its utility. Furthermore, given a choice, MAX prefers to move to a state of maxi
 whereas MIN prefers a state of minimum value. For more Info (Check AIMA 3rd Edition Page 164)
   ```
 
-  #### Minimax Strategy
+  ### Minimax Strategy
   - Why do we take the min value every other level of the tree?
   - These nodes represent the opponent's choice of move
   - The computer assumes that the human will choose that move that is of least value to the computer
