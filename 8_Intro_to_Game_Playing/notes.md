@@ -59,7 +59,7 @@ whereas MIN prefers a state of minimum value. For more Info (Check AIMA 3rd Edit
   - These nodes represent the opponent's choice of move
   - The computer assumes that the human will choose that move that is of least value to the computer
 
-    For pseudo-code of Minimax Algorithm check Page 22 of [`this`](https://github.com/maheshbabugorantla/Udacity-AIND/blob/unstable/Notes/UW_AI_CS573/lectures/05-games.pdf) document
+  For pseudo-code of Minimax Algorithm check Page 22 of [`this`](https://github.com/maheshbabugorantla/Udacity-AIND/blob/unstable/Notes/UW_AI_CS573/lectures/05-games.pdf) document
 
 
 - [ ] Alpha-Beta Pruning
