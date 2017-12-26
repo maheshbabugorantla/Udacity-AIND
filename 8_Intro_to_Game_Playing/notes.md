@@ -45,6 +45,22 @@ and [University of Washington AI CS573 Class Notes](https://courses.cs.washingto
     - of a min-position: The value of it smallest successor
   - `Minimax procedure` : Search down several level; at the bottom level apply the utility function, back-up values all the way up to the root node, and that node selects the move
 
+  ```
+  Given a game tree, the optimal strategy can be determined from the minimax value
+of each node, which we write as MINIMAX(n). The minimax value of a node is the utility
+(for MAX) of being in the corresponding state, assuming that both players play optimally
+from there to the end of the game. Obviously, the minimax value of a terminal state is just
+its utility. Furthermore, given a choice, MAX prefers to move to a state of maximum value,
+whereas MIN prefers a state of minimum value. For more Info (Check AIMA 3rd Edition Page 164)
+  ```
+
+  #### Minimax Strategy
+  - Why do we take the min value every other level of the tree?
+  - These nodes represent the opponent's choice of move
+  - The computer assumes that the human will choose that move that is of least value to the computer
+
+    For pseudo-code of Minimax Algorithm check [this](../Notes/UW_AI_CS573/lectures/05-games.pdf#page=22)
+
 
 - [ ] Alpha-Beta Pruning
 - [ ] Evaluation Functions
