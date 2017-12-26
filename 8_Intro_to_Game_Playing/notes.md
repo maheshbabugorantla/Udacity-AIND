@@ -78,6 +78,14 @@ and [University of Washington AI CS573 Class Notes](https://courses.cs.washingto
     - game length m = 100
     - search space b<sup>m</sup> = 35<sup>100</sup> = 10<sup>154</sup>
 
+  - The universe:
+    - number of atoms = 10<sup>78</sup>
+    - age = 10<sup>18</sup> seconds
+    - 10<sup>8</sup> moves/sec x 10<sup>78</sup> x 10<sup>18</sup> = 10<sup>104</sup>
+
+  - Exact Solution completely infeasible
+
+
 - [ ] Alpha-Beta Pruning
 - [ ] Evaluation Functions
 - [ ] Isolation Game Player
