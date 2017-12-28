@@ -17,6 +17,33 @@ unitlist = row_units + column_units + square_units + diagonal_unit_1 + diagonal_
 units = dict((s, [u for u in unitlist if s in u]) for s in boxes)
 peers = dict((s, set(sum(units[s],[]))-set([s])) for s in boxes)
 
+# def naked_twins(values):
+#     """Eliminate values using the naked twins strategy.
+#     Args:
+#         values(dict): a dictionary of the form {'box_name': '123456789', ...}
+#     Returns:
+#         the values dictionary with the naked twins eliminated from peers.
+#     """
+#
+#     # Find all instances of naked twins and eliminate the naked twins as possibilities for their peers
+#     unsolved = [box for box in boxes if len(values[box]) != 1]
+#
+#     pairs = set([])
+#     # Find twins based on initial unordered pairs via the set() function that creates an initial empty array
+#     for box in [b for b in unsolved if len(values[b]) == 2]:
+#         for peer in [p for p in peers[box] if values[p] == values[box]]:
+#             # add twins to the initial set
+#             pairs.add(create_pair(box, peer))
+#
+#     # Eliminate twins
+#     for a, b in pairs:
+#         for unit in [u for u in units[a] if b in u]:
+#             for box in [bx for bx in unit if len(values[bx]) > 1 and bx != a and bx != b]:
+#                 for char in values[b]:
+#                     values = assign_value(values, box, values[box].replace(char, ''))
+#
+#     return values
+
 def naked_twins(values):
     """Eliminate values using the naked twins strategy.
 
@@ -52,7 +79,7 @@ def naked_twins(values):
     for box in twin_boxes:
         value = values[box]
         for peer in peers[box]:
-            if values[peer] == value and (peer, box) not in naked_twins: # (peer, box) not in naked_twins removes the duplicate pairs
+            if values[peer] == value: # and (peer, box) not in naked_twins: # (peer, box) not in naked_twins removes the duplicate pairs
                 naked_twins.append((box, peer))
 
     for twin1, twin2 in naked_twins:
@@ -61,9 +88,9 @@ def naked_twins(values):
         value = values[twin1]
         peers_common = set(peer1) & set(peer2)
         for peer in peers_common:
-            if peer != twin1 and len(values[peer]) > 2:
+            if len(values[peer]) > 1:
                 for val in value:
-                    values[peer] = values[peer].replace(val, '')
+                    values = assign_value(values, peer, values[peer].replace(val, ''))
 
     return values
 
@@ -87,9 +114,9 @@ def eliminate(values):
 
     for s in solved:
         digit = values[s]
-        for peer in peers:
+        peerSet = peers[s]
+        for peer in peerSet:
             values[peer] = values[peer].replace(digit, "")
-
     return values
 
 def only_choice(grid):
@@ -215,7 +242,7 @@ def solve(grid):
     return values
 
 if __name__ == "__main__":
-    diag_sudoku_grid = '2.............62....1....7...6..8...3...9...7...6..4...4....8....52.............3'
+    diag_sudoku_grid = '........4......1.....6......7....2.8...372.4.......3.7......4......5.6....4....2.'
     display(grid2values(diag_sudoku_grid))
     result = solve(diag_sudoku_grid)
     display(result)

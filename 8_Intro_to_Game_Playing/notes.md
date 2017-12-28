@@ -73,6 +73,9 @@ and [University of Washington AI CS573 Class Notes](https://courses.cs.washingto
     - O(bm) (Depth-First Exploration)
 
   #### Is Minimax Good Enough?
+
+    Branching Factor: It is the no. of child nodes at each node (outdegree nodes)
+
   - Chess:
     - branching factor b = 35
     - game length m = 100
