@@ -17,33 +17,6 @@ unitlist = row_units + column_units + square_units + diagonal_unit_1 + diagonal_
 units = dict((s, [u for u in unitlist if s in u]) for s in boxes)
 peers = dict((s, set(sum(units[s],[]))-set([s])) for s in boxes)
 
-# def naked_twins(values):
-#     """Eliminate values using the naked twins strategy.
-#     Args:
-#         values(dict): a dictionary of the form {'box_name': '123456789', ...}
-#     Returns:
-#         the values dictionary with the naked twins eliminated from peers.
-#     """
-#
-#     # Find all instances of naked twins and eliminate the naked twins as possibilities for their peers
-#     unsolved = [box for box in boxes if len(values[box]) != 1]
-#
-#     pairs = set([])
-#     # Find twins based on initial unordered pairs via the set() function that creates an initial empty array
-#     for box in [b for b in unsolved if len(values[b]) == 2]:
-#         for peer in [p for p in peers[box] if values[p] == values[box]]:
-#             # add twins to the initial set
-#             pairs.add(create_pair(box, peer))
-#
-#     # Eliminate twins
-#     for a, b in pairs:
-#         for unit in [u for u in units[a] if b in u]:
-#             for box in [bx for bx in unit if len(values[bx]) > 1 and bx != a and bx != b]:
-#                 for char in values[b]:
-#                     values = assign_value(values, box, values[box].replace(char, ''))
-#
-#     return values
-
 def naked_twins(values):
     """Eliminate values using the naked twins strategy.
 
