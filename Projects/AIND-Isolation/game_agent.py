@@ -215,50 +215,50 @@ class MinimaxPlayer(IsolationPlayer):
         # TODO: finish this function!
         return self._helper_minimax(game=game, depth=depth) # Returning the best legal move
 
+    # Copied from AIMA Pseudocode
+    def terminal_test(self, game, depth): # Either the depth is Zero(node is terminal node) OR there are no legal moves
+        if self.time_left() < self.TIMER_THRESHOLD:
+            raise SearchTimeout()
+
+        legal_moves = game.get_legal_moves()
+        return depth == 0 or len(legal_moves) == 0
+
+    def min_value(self, game, depth):
+
+        if self.time_left() < self.TIMER_THRESHOLD:
+            raise SearchTimeout()
+
+        if self.terminal_test(game, depth):
+            return self.score(game, self)
+
+        bestScore = float("inf")
+
+        for move in game.get_legal_moves():
+            bestScore = min(bestScore, self.max_value(game.forecast_move(move), depth - 1)) # Get the bestScore
+
+        return bestScore
+
+    def max_value(self, game, depth):
+
+        if self.time_left() < self.TIMER_THRESHOLD:
+            raise SearchTimeout()
+
+        if self.terminal_test(game, depth):
+            return self.score(game, self)
+
+        bestScore = float("-inf")
+
+        for move in game.get_legal_moves():
+            bestScore = max(bestScore, self.min_value(game.forecast_move(move), depth - 1)) # Get the bestScore
+
+        return bestScore
+
     def _helper_minimax(self, game, depth):
 
         if self.time_left() < self.TIMER_THRESHOLD:
             raise SearchTimeout()
 
-        # Copied from AIMA Pseudocode
-        def terminal_test(game, depth): # Either the depth is Zero(node is terminal node) OR there are no legal moves
-            if self.time_left() < self.TIMER_THRESHOLD:
-                raise SearchTimeout()
-
-            legal_moves = game.get_legal_moves(self)
-            return depth == 0 or len(legal_moves) == 0
-
-        def min_value(game, depth):
-
-            if self.time_left() < self.TIMER_THRESHOLD:
-                raise SearchTimeout()
-
-            if terminal_test(game, depth):
-                return self.score(game, self)
-
-            bestScore = float("inf")
-
-            for move in game.get_legal_moves(self):
-                bestScore = min(bestScore, max_value(game.forecast_move(move), depth - 1)) # Get the bestScore
-
-            return bestScore
-
-        def max_value(game, depth):
-
-            if self.time_left() < self.TIMER_THRESHOLD:
-                raise SearchTimeout()
-
-            if terminal_test(game, depth):
-                return self.score(game, self)
-
-            bestScore = float("-inf")
-
-            for move in game.get_legal_moves(self):
-                bestScore = max(bestScore, min_value(game.forecast_move(move), depth - 1)) # Get the bestScore
-
-            return bestScore
-
-        legal_moves = game.get_legal_moves(self)
+        legal_moves = game.get_legal_moves()
 
         if not legal_moves: # If there are no more legal moves then return (-1, -1)
             return (-1, -1)
@@ -268,7 +268,7 @@ class MinimaxPlayer(IsolationPlayer):
 
         for move in legal_moves:
             nextMove = game.forecast_move(move)
-            bestMove, bestScore = max([(bestMove, bestScore), (move, min_value(nextMove, depth - 1))] , key=lambda item: item[1]) # Get the move that has the bestScore
+            bestMove, bestScore = max([(bestMove, bestScore), (move, self.min_value(nextMove, depth - 1))] , key=lambda item: item[1]) # Get the move that has the bestScore
 
         return bestMove
 
