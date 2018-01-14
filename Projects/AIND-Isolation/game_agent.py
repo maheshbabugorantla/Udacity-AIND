@@ -9,6 +9,249 @@ class SearchTimeout(Exception):
     """Subclass base exception for code clarity. """
     pass
 
+def improved_score_heuristic(game, player):
+    """
+        Outputs a score that is a difference between player's moves and opponent moves
+
+        Parameters
+        ----------
+        game : `isolation.Board`
+            An instance of `isolation.Board` encoding the current state of the
+            game (e.g., player locations and blocked cells).
+
+        player : hashable
+            One of the objects registered by the game object as a valid player.
+            (i.e., `player` should be either game.__player_1__ or
+            game.__player_2__).
+
+        Returns
+        ----------
+        float
+            The heuristic value of the current game state
+    """
+
+    if game.is_loser(player):
+        return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+
+    my_moves = len(game.get_legal_moves(player))
+    opponent_moves = len(game.get_legal_moves(game.get_opponent(player)))
+
+    return float(my_moves - opponent_moves)
+
+def improved_score_heuristic(game, player, alpha):
+    """
+        Outputs a score that is a difference between player's moves and opponent moves
+
+        Parameters
+        ----------
+        game : `isolation.Board`
+            An instance of `isolation.Board` encoding the current state of the
+            game (e.g., player locations and blocked cells).
+
+        player : hashable
+            One of the objects registered by the game object as a valid player.
+            (i.e., `player` should be either game.__player_1__ or
+            game.__player_2__).
+
+        Returns
+        ----------
+        float
+            The heuristic value of the current game state
+    """
+
+    if game.is_loser(player):
+        return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+
+    my_moves = len(game.get_legal_moves(player))
+    opponent_moves = len(game.get_legal_moves(game.get_opponent(player)))
+
+    return float(my_moves - alpha * opponent_moves)
+
+def improved_score_2_heuristic(game, player):
+    """
+        Outputs a score that is a difference between player's moves and opponent moves
+
+        Parameters
+        ----------
+        game : `isolation.Board`
+            An instance of `isolation.Board` encoding the current state of the
+            game (e.g., player locations and blocked cells).
+
+        player : hashable
+            One of the objects registered by the game object as a valid player.
+            (i.e., `player` should be either game.__player_1__ or
+            game.__player_2__).
+
+        Returns
+        ----------
+        float
+            The heuristic value of the current game state
+    """
+
+    if game.is_loser(player):
+        return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+
+    my_moves = len(game.get_legal_moves(player))
+    opponent_moves = len(game.get_legal_moves(game.get_opponent(player)))
+
+    return float(my_moves - 1.5 * opponent_moves)
+
+def improved_score_3_heuristic(game, player):
+    """
+        Outputs a score that is a weighted difference of player's moves and opponent moves (weighted more)
+
+        Parameters
+        ----------
+        game : `isolation.Board`
+            An instance of `isolation.Board` encoding the current state of the
+            game (e.g., player locations and blocked cells).
+
+        player : hashable
+            One of the objects registered by the game object as a valid player.
+            (i.e., `player` should be either game.__player_1__ or
+            game.__player_2__).
+
+        Returns
+        ----------
+        float
+            The heuristic value of the current game state
+    """
+
+    if game.is_loser(player):
+        return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+
+    my_moves = len(game.get_legal_moves(player))
+    opponent_moves = len(game.get_legal_moves(game.get_opponent(player)))
+
+    return float(my_moves - 2 * opponent_moves)
+
+def distance_from_center(game, player):
+
+    if game.is_loser(player):
+        return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+
+    width, height = game.width/2., game.height/2.
+    y, x = game.get_player_location(player)
+
+    return float((height - y)**2 + (width - x)**2)
+
+def moves_ratio(game, player):
+
+    if game.is_loser(player):
+        return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+
+    my_moves = len(game.get_legal_moves(player))
+
+    if my_moves == 0: # Opponent Wins
+        return -8
+
+    opponent_moves = len(game.get_legal_moves(game.get_opponent(player)))
+
+    if opponent_moves == 0: # Current Player Wins
+        return 8
+
+    ratio = float(my_moves/opponent_moves)
+
+    if ratio == 1:
+        return 0
+    elif ratio <= 0.5:
+        return -6
+    elif ratio <= 0.75:
+        return -4
+    elif ratio < 1:
+        return -2
+    elif ratio <= 1.25:
+        return 2
+    elif ratio <= 1.75:
+        return 4
+    elif ratio <= 2:
+        return 6
+    else:
+        return 8
+
+def weighted_center_board_moves(game, player):
+
+    if game.is_loser(player):
+        return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+
+    center_dis_c = distance_from_center(game, player)
+    center_dis_o = distance_from_center(game, game.get_opponent(player))
+
+    # TODO: Need to think of a logic to give more weightage for the moves at the center
+
+    # Variable to store the Weighted Current Player's and Opponent's score based on their distance from the center of Isolation Board
+    w_player_score = 0
+    w_opponent_score = 0
+
+    if center_dis_c == 0: # The current player is at the center of the board
+        w_player_score = 8
+    elif center_dis_c <= 1:
+        w_player_score = 5
+    elif center_dis_c <= 2:
+        w_player_score = 2
+    elif center_dis_c <= 3:
+        w_player_score = 1
+
+    if center_dis_o == 0: # The opponent player is at the center of the board
+        w_opponent_score = 8 # 4
+    elif center_dis_o <= 1:
+        w_opponent_score = 5 # 3
+    elif center_dis_o <= 2:
+        w_opponent_score = 2
+    elif center_dis_o <= 3:
+        w_opponent_score = 1
+
+    return float(w_player_score - w_opponent_score)
+
+def weighted_available_moves(game, player):
+    if game.is_loser(player):
+        return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+
+    my_moves = game.get_legal_moves(player)
+    opponent_moves = game.get_legal_moves(game.get_opponent(player))
+
+    width, height = game.width/2., game.height/2.
+
+    my_score = 0
+    opponent_score = 0
+
+    for move in my_moves:
+        center_distance = float(((width - move[1])**2 + (height - move[0])**2)**0.5)
+
+        # Giving more weightage for the available moves near to the center
+        my_score += my_score * (game.width - center_distance)
+
+    for move in opponent_moves:
+        center_distance = float(((width - move[1])**2 + (height - move[0])**2)**0.5)
+
+        # Giving more weightage for the available moves near to the center
+        opponent_score += opponent_score * (game.width - center_distance)
+
+    return my_score - opponent_score
 
 def custom_score(game, player):
     """Calculate the heuristic value of a game state from the point of view
@@ -35,8 +278,8 @@ def custom_score(game, player):
         The heuristic value of the current game state to the specified player.
     """
     # TODO: finish this function!
-    raise NotImplementedError
-
+    return float(moves_ratio(game=game, player=player))
+    # return improved_score_heuristic(game=game, player=player, alpha=1.5)
 
 def custom_score_2(game, player):
     """Calculate the heuristic value of a game state from the point of view
@@ -60,9 +303,11 @@ def custom_score_2(game, player):
     float
         The heuristic value of the current game state to the specified player.
     """
-    # TODO: finish this function!
-    raise NotImplementedError
 
+    # TODO: finish this function!
+    # return weighted_available_moves(game=game, player=player)
+    # return improved_score_heuristic(game=game, player=player, alpha=2.0)
+    return improved_score_3_heuristic(game=game, player=player)
 
 def custom_score_3(game, player):
     """Calculate the heuristic value of a game state from the point of view
@@ -87,8 +332,8 @@ def custom_score_3(game, player):
         The heuristic value of the current game state to the specified player.
     """
     # TODO: finish this function!
-    raise NotImplementedError
-
+    return float(weighted_center_board_moves(game=game, player=player))
+    # return improved_score_heuristic(game=game, player=player, alpha=2.5)
 
 class IsolationPlayer:
     """Base class for minimax and alphabeta agents -- this class is never
@@ -157,7 +402,18 @@ class MinimaxPlayer(IsolationPlayer):
 
         # Initialize the best move so that this function returns something
         # in case the search fails due to timeout
-        best_move = (-1, -1)
+        legal_moves = game.get_legal_moves()
+
+        if not legal_moves: # If there are no more legal moves then return (-1, -1)
+            return (-1, -1)
+
+        bestMove = None
+
+        # If we started the game then take the center position
+        if game.move_count == 0:
+            return (game.height//2, game.width//2)
+        else:
+            bestMove = legal_moves[0]
 
         try:
             # The try/except block will automatically catch the exception
@@ -168,7 +424,7 @@ class MinimaxPlayer(IsolationPlayer):
             pass  # Handle any actions required after timeout as needed
 
         # Return the best move from the last completed search iteration
-        return best_move
+        return bestMove
 
     def minimax(self, game, depth):
         """Implement depth-limited minimax search algorithm as described in
@@ -258,12 +514,20 @@ class MinimaxPlayer(IsolationPlayer):
         if self.time_left() < self.TIMER_THRESHOLD:
             raise SearchTimeout()
 
+        bestMove = None # Assuming first legal move as the best move
+
         legal_moves = game.get_legal_moves()
 
         if not legal_moves: # If there are no more legal moves then return (-1, -1)
             return (-1, -1)
 
-        bestMove = legal_moves[0] # Assuming first legal move as the best move
+        # If we started the game then take the center position
+        if game.move_count == 0:
+            return (game.height//2, game.width//2)
+        else:
+            bestMove = legal_moves[0]
+
+        # bestMove = legal_moves[0] # Assuming first legal move as the best move
         bestScore = float("-inf")
 
         for move in legal_moves:
@@ -314,13 +578,18 @@ class AlphaBetaPlayer(IsolationPlayer):
 
         # Initialize the best move so that this function returns something
         # in case the search fails due to timeout
+        bestMove = None # Assuming first legal move as the best move
 
         legal_moves = game.get_legal_moves()
 
-        if not legal_moves: # Check if there are legal_moves available
+        if not legal_moves: # If there are no more legal moves then return (-1, -1)
             return (-1, -1)
 
-        best_move = legal_moves[0] # Choosing the first available legal move to be the best move
+        # If we started the game then take the center position
+        if game.move_count == 0:
+            return (game.height//2, game.width//2)
+        else:
+            bestMove = legal_moves[0]
 
         try:
 
@@ -390,7 +659,6 @@ class AlphaBetaPlayer(IsolationPlayer):
 
         return bestScore
 
-
     def alphabeta(self, game, depth, alpha=float("-inf"), beta=float("inf")):
         """Implement depth-limited minimax search with alpha-beta pruning as
         described in the lectures.
@@ -445,7 +713,14 @@ class AlphaBetaPlayer(IsolationPlayer):
 
         legal_moves = game.get_legal_moves()
 
-        bestMove = (-1, -1)
+        if not legal_moves: # If there are no more legal moves then return (-1, -1)
+            return (-1, -1)
+
+        # If we started the game then take the center position
+        if game.move_count == 0:
+            return (game.height//2, game.width//2)
+        else:
+            bestMove = legal_moves[0]
 
         for move in legal_moves:
             _score = self.min_value(game=game.forecast_move(move), depth=depth-1, alpha=alpha, beta=beta)
